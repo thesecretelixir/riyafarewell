@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slayy Bitchh, We'll Miss You, Riya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;500;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================
+     QUICK EDIT GUIDE
+     1. Photos: scroll to the PHOTOS list near the bottom script tag.
+        One single gallery, 15 slots ready to go.
+     2. Text: search "EDIT:" comments throughout the HTML body.
+     3. Colors/fonts: change the CSS variables right below.
+     ============================================ */
+
+  :root{
+    --cream: #FFF6F2;
+    --ink: #1A1A2E;
+    --pink: #FF4F81;
+    --violet: #8A5CFF;
+    --gold: #FFC93C;
+    --mint: #35D0A4;
+    --paper: #FFFDF9;
+    --shadow: rgba(26,26,46,0.16);
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 8% 12%, rgba(138,92,255,0.09), transparent 40%),
+      radial-gradient(circle at 92% 18%, rgba(255,79,129,0.09), transparent 40%),
+      var(--cream);
+    color: var(--ink);
+    font-family: 'Manrope', sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .display{ font-family: 'Unbounded', sans-serif; font-weight: 700; letter-spacing: -0.01em; }
+  .handwritten{ font-family: 'Caveat', cursive; }
+  a{ color: inherit; }
+
+  .confetti-piece{
+    position: fixed; top: -20px; width: 10px; height: 14px;
+    z-index: 999; pointer-events: none; border-radius: 2px;
+    animation: fall linear forwards;
+  }
+  @keyframes fall{ to{ transform: translateY(110vh) rotate(540deg); opacity: 0.9; } }
+
+  .tape-nav{
+    position: sticky; top: 0; z-index: 50;
+    display:flex; justify-content: center; gap: 8px;
+    padding: 14px 10px;
+    background: rgba(255,246,242,0.88);
+    backdrop-filter: blur(6px);
+    border-bottom: 2px dashed rgba(26,26,46,0.15);
+    flex-wrap: wrap;
+  }
+  .tape-nav a{
+    font-family:'Unbounded', sans-serif; font-size: 0.8rem; text-decoration: none;
+    background: var(--paper); padding: 6px 13px; border-radius: 20px;
+    box-shadow: 0 2px 0 var(--shadow); transition: transform 0.15s ease;
+  }
+  .tape-nav a:hover{ transform: translateY(-3px) rotate(-2deg); }
+
+  .hero{
+    min-height: 92vh; display:flex; flex-direction: column;
+    align-items:center; justify-content:center; text-align:center;
+    padding: 60px 20px 40px; position: relative;
+  }
+  .sticker{ position:absolute; font-size: 2.2rem; animation: floaty 5s ease-in-out infinite; user-select: none; }
+  @keyframes floaty{ 0%,100%{ transform: translateY(0) rotate(0deg); } 50%{ transform: translateY(-18px) rotate(8deg); } }
+  .s1{ top: 12%; left: 8%; }
+  .s2{ top: 20%; right: 10%; animation-delay: 1.2s; }
+  .s3{ bottom: 18%; left: 14%; animation-delay: 0.6s; }
+  .s4{ bottom: 12%; right: 14%; animation-delay: 1.8s; }
+
+  .eyebrow{
+    font-family:'Caveat', cursive; font-size: 1.5rem; color: var(--violet);
+    transform: rotate(-2deg); display:inline-block; margin-bottom: 6px;
+  }
+  .hero h1{ font-size: clamp(2.6rem, 9vw, 5.6rem); margin: 0; line-height: 1.03; }
+  .hero h1 .accent{ color: var(--pink); }
+  .hero h1 .accent2{ color: var(--violet); }
+  .hero p.sub{ max-width: 580px; margin: 18px auto 0; font-size: 1.15rem; opacity: 0.85; }
+
+  .avatar-frame{
+    width: 190px; height: 190px; border-radius: 50%; margin: 30px auto 10px;
+    background: linear-gradient(135deg, var(--pink), var(--violet));
+    padding: 6px; box-shadow: 0 10px 0 var(--shadow);
+  }
+  .avatar-frame img, .avatar-frame .placeholder{
+    width:100%; height:100%; border-radius:50%; object-fit: cover; display:block; background: var(--paper);
+  }
+  .avatar-frame .placeholder{ display:flex; align-items:center; justify-content:center; font-size: 2.4rem; }
+
+  .cta-row{ margin-top: 28px; display:flex; gap: 14px; flex-wrap: wrap; justify-content:center; }
+  .btn{
+    font-family:'Unbounded', sans-serif; font-size: 1rem; border: none; cursor: pointer;
+    padding: 14px 26px; border-radius: 50px; box-shadow: 0 5px 0 var(--shadow);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .btn:active{ transform: translateY(4px); box-shadow: 0 1px 0 var(--shadow); }
+  .btn-primary{ background: var(--ink); color: var(--cream); }
+  .btn-secondary{ background: var(--gold); color: var(--ink); }
+
+  section{ padding: 90px 6vw; max-width: 1100px; margin: 0 auto; }
+  .section-tag{ font-family:'Caveat', cursive; font-size: 1.3rem; color: var(--pink); }
+  section h2{ font-size: clamp(2rem, 5vw, 3rem); margin: 4px 0 20px; }
+  section .lede{ max-width: 720px; font-size: 1.05rem; line-height: 1.65; opacity: 0.9; margin-bottom: 34px; }
+  section .lede p{ margin: 0 0 14px; }
+  section .lede .desi{ font-family:'Caveat', cursive; font-size: 1.35rem; color: var(--violet); }
+
+  .badge-row{ display:flex; flex-wrap:wrap; gap: 10px; margin: 18px 0 30px; }
+  .badge{
+    font-family:'Unbounded', sans-serif; font-size: 0.85rem;
+    background: var(--paper); padding: 8px 16px; border-radius: 20px;
+    box-shadow: 0 4px 0 var(--shadow); transform: rotate(-1.5deg);
+  }
+  .badge:nth-child(2n){ transform: rotate(1.5deg); }
+
+  .gallery{ display:grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 24px; margin-top: 8px; }
+  .polaroid{
+    background: var(--paper); padding: 14px 14px 42px; border-radius: 6px;
+    box-shadow: 0 8px 0 var(--shadow); cursor: pointer;
+    transition: transform 0.2s ease; transform: rotate(var(--r,0deg));
+  }
+  .polaroid:hover{ transform: rotate(0deg) scale(1.04); z-index: 5; }
+  .polaroid:nth-child(2n){ --r: -3deg; }
+  .polaroid:nth-child(3n){ --r: 3deg; }
+  .polaroid:nth-child(5n){ --r: -2deg; }
+  .polaroid img, .polaroid .ph-placeholder{
+    width:100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 2px; display:block;
+    background: linear-gradient(135deg, #eee, #ddd);
+  }
+  .polaroid .ph-placeholder{ display:flex; align-items:center; justify-content:center; font-size: 2rem; color: #999; }
+  .polaroid figcaption{ font-family:'Caveat', cursive; font-size: 1.1rem; text-align:center; margin-top: 10px; }
+
+  .lightbox{
+    position: fixed; inset:0; background: rgba(26,26,46,0.85);
+    display:none; align-items:center; justify-content:center; z-index: 200; padding: 30px;
+  }
+  .lightbox.open{ display:flex; }
+  .lightbox img{ max-width: 90vw; max-height: 80vh; border-radius: 10px; }
+  .lightbox .close-x{ position:absolute; top: 24px; right: 30px; color: white; font-size: 2rem; cursor:pointer; font-family:'Unbounded', sans-serif; }
+
+  .quote-wall{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; margin-top: 10px; }
+  .quote-card{
+    background: var(--ink); color: var(--cream); border-radius: 18px; padding: 22px;
+    font-family:'Caveat', cursive; font-size: 1.4rem; box-shadow: 0 6px 0 rgba(0,0,0,0.25);
+  }
+
+  .miss-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 18px; }
+  .miss-card{ background: var(--paper); border-radius: 18px; padding: 20px; box-shadow: 0 6px 0 var(--shadow); }
+  .miss-card .emoji{ font-size: 1.8rem; }
+  .miss-card p{ margin: 8px 0 0; }
+
+  .guestbook-form{ display:flex; gap: 10px; flex-wrap: wrap; margin-bottom: 26px; }
+  .guestbook-form input, .guestbook-form textarea{
+    font-family:'Manrope', sans-serif; border: 2px solid var(--ink); border-radius: 14px;
+    padding: 12px 14px; background: var(--paper);
+  }
+  .guestbook-form input{ flex: 1 1 200px; }
+  .guestbook-form textarea{ flex: 1 1 100%; resize: vertical; min-height: 70px; }
+
+  .wall{ display:grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 16px; }
+  .note{
+    background: var(--gold); padding: 18px; border-radius: 4px; box-shadow: 0 6px 0 var(--shadow);
+    transform: rotate(var(--r,0deg)); font-family:'Caveat', cursive; font-size: 1.2rem;
+  }
+  .note:nth-child(2n){ background: var(--mint); --r: -2deg; }
+  .note:nth-child(3n){ background: #FFB3C7; --r: 2deg; }
+  .note .signed{ display:block; margin-top: 10px; font-weight:700; text-align:right; }
+  .empty-wall{ font-family:'Caveat', cursive; font-size:1.3rem; opacity:0.7; }
+
+  footer{ text-align:center; padding: 60px 20px 80px; }
+  footer h2{ font-size: clamp(1.8rem,5vw,2.6rem); }
+  footer .desi{ font-family:'Caveat', cursive; font-size: 1.5rem; color: var(--violet); display:block; margin-top: 10px; }
+  .stamp{
+    display:inline-block; border: 4px double var(--pink); color: var(--pink);
+    font-family:'Unbounded', sans-serif; padding: 10px 22px; border-radius: 10px;
+    transform: rotate(-4deg); margin-top: 18px;
+  }
+
+  @media (prefers-reduced-motion: reduce){ *{ animation: none !important; transition: none !important; } }
+  @media (max-width: 600px){ section{ padding: 60px 5vw; } .sticker{ display:none; } }
+</style>
+</head>
+<body>
+
+<div class="lightbox" id="lightbox">
+  <span class="close-x" id="lightboxClose">&#10005;</span>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<nav class="tape-nav">
+  <a href="#top">Home</a>
+  <a href="#photos">Photos</a>
+  <a href="#baddie">The Baddie Era</a>
+  <a href="#feminist">Not Today, Patriarchy</a>
+  <a href="#soft">The Soft Side</a>
+  <a href="#office">Us at Work</a>
+  <a href="#quote">Purrrr</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <span class="sticker s1">&#128293;</span>
+  <span class="sticker s2">&#10024;</span>
+  <span class="sticker s3">&#128140;</span>
+  <span class="sticker s4">&#128077;</span>
+
+  <span class="eyebrow">not a goodbye, just a "clock you later"</span>
+
+  <h1>Slayy Bitchh,<br>You <span class="accent2">are Iconic</span></h1>
+
+  <div class="avatar-frame">
+    <img src="photos/riya-avatar.jpg" alt="Riya">
+  </div>
+
+  <!-- EDIT: your intro blurb, keep it or rewrite -->
+  <p class="sub">Baddie. Big sister. Certified tea partner. The office is about to feel a lot less iconic without you, so this page exists to make sure you never forget exactly why you were that girl.</p>
+
+  <div class="cta-row">
+    <button class="btn btn-primary" id="confettiBtn">Hit the confetti</button>
+    <button class="btn btn-secondary" id="purrBtn">Purrrrrrrrr</button>
+  </div>
+</header>
+
+<!-- ============ PHOTOS ============ -->
+<section id="photos">
+  <span class="section-tag">the receipts</span>
+  <h2>Photo Dump</h2>
+  <p class="lede" style="margin-bottom:14px;">Every photo that made the cut. Click any of them to see it bigger.</p>
+  <div class="gallery" id="galleryMain"></div>
+</section>
+
+<!-- ============ SECTION 1: THE BADDIE ERA ============ -->
+<section id="baddie">
+  <span class="section-tag">exhibit A</span>
+  <h2>The Baddie Era</h2>
+  <div class="lede">
+    <p>Let's get one thing clocked immediately: you walked so the rest of us could crawl. Slay queen energy, every single day, zero days off.</p>
+    <p>And if anyone ever came for you, bad idea. Because the rule was simple: if they go low, we go lower. No mercy, no filter, just pure "I will end you with a smile" energy.</p>
+    <p>Slayy bitchh, that is genuinely the only caption that ever fit you. You would say something unhinged in the group chat and it would just be <span class="desi">"oh my god, oh my god... fuck bol diya"</span>, because you really said the thing nobody else had the guts to say, and said it perfectly.</p>
+    <p>Main character behavior, but the kind where the side characters are obsessed with you too. That is not baddie, that is icon.</p>
+  </div>
+
+  <div class="badge-row">
+    <!-- EDIT: swap these for real inside-joke tags, keep them short -->
+    <span class="badge">certified menace</span>
+    <span class="badge">rent free in everyone's head</span>
+    <span class="badge">roasts with love</span>
+    <span class="badge">group chat's main character</span>
+    <span class="badge">zero chill, all charm</span>
+  </div>
+
+  <h3 style="margin-bottom:14px;">Riya-isms, a running list</h3>
+  <div class="quote-wall">
+    <!-- EDIT: fill in your actual lines and catchphrases here -->
+    <div class="quote-card">"add it to the list of things I'm not dealing with today"</div>
+    <div class="quote-card">"oh my god, oh my god... fuck bol diya"</div>
+    <div class="quote-card">"if they go low, we go lower"</div>
+    <div class="quote-card">[EDIT: add another one of your lines]</div>
+  </div>
+</section>
+
+<!-- ============ SECTION: NOT TODAY, PATRIARCHY ============ -->
+<section id="feminist">
+  <span class="section-tag">exhibit A, part two</span>
+  <h2>Not Today, Patriarchy</h2>
+  <div class="lede">
+    <p>Being a baddie was never just about the fits and the one-liners. Your version of it came with a spine. The kind that clocked a sexist comment the second it left someone's mouth, and did not let it slide just because it was said with a laugh attached.</p>
+    <p>You never needed a stage or a speech for it either. It showed up in the everyday stuff. Calling out the double standard when a man got praised for the exact thing a woman got side-eyed for. Refusing to shrink yourself to make a room more comfortable. Backing up every woman in that office the second you sensed someone talking down to them, no questions asked, no hesitation.</p>
+    <p>That is the part people mistake for attitude. It was never attitude. It was standards. You simply refused to accept less respect than you gave, and somehow made the rest of us braver just by watching you do it.</p>
+    <p>Slay queen was never just an aesthetic with you. It came with substance, every single time.</p>
+  </div>
+</section>
+
+<!-- ============ SECTION 2: THE SOFT SIDE ============ -->
+<section id="soft">
+  <span class="section-tag">exhibit B</span>
+  <h2>The Soft Side Nobody Clocks</h2>
+  <div class="lede">
+    <p>Here is the thing about a real baddie: the softest hearts hide behind the loudest confidence.</p>
+    <p>You are, before anything else, a sister. Talk about Ritika for five seconds and the whole "I don't catch feelings" act disappears completely. You light up like there is no bigger flex in the world than being someone's big sister. The check-in texts, the "eat kar liya?", the way you would drop everything if Ritika needed you, that is not performance, that is just who you are at the core.</p>
+    <p>I have never met Ritika. There is not a single photo of the two of you on this page. But I do not need one, because I have watched your face change when her name comes up. I have seen you step out mid-conversation because Ritika called. I have heard your voice go softer, just slightly, every single time. You do not need a picture to know what real love looks like when you have watched it happen in real time, over and over again, across a desk.</p>
+    <p>That is the part that gets me the most, honestly. Someone can be the loudest, funniest, most unbothered person in the room, and still quietly build their whole world around making sure their little sister feels safe. You did both at once, every day, and never once made it feel like a contradiction.</p>
+    <p>It shows up everywhere else too. The way you cannot walk past a stray dog without stopping. The way you remember someone's bad day three weeks later and still ask about it. The way you make people feel held without ever turning it into a whole thing.</p>
+    <p class="desi">तू खूप प्रेमळ आहेस, आणि ते तुझ्या प्रत्येक कृतीतून दिसतं.</p>
+    <p style="opacity:0.7; font-size:0.95rem; margin-top:-10px;">(You are so full of love, and it shows in everything you do.)</p>
+    <p>I am away from my own younger sibling, and somehow sitting next to you at work made me feel like home. Maybe that is because I recognized something in you, the way someone carries another person's happiness like it is their own responsibility. You made me cooler, braver, and honestly, a lot less uncle. I will miss the tea sessions more than I can put into words. Who am I supposed to go bitch to now?</p>
+    <p class="desi">तुझ्यासारखी माणसं आयुष्यात कमी भेटतात.</p>
+    <p style="opacity:0.7; font-size:0.95rem; margin-top:-10px;">(People like you are rare to find in life.)</p>
+  </div>
+
+  <div class="miss-card" style="max-width:640px; margin: 0 auto 10px; text-align:center; background:var(--ink); color:var(--cream); box-shadow: 0 6px 0 rgba(0,0,0,0.25);">
+    <p class="handwritten" style="font-size:1.4rem; margin:0;">To Ritika, even though we have never met, thank you for being part of why Riya's heart works the way it does. She talks about you like you hung the moon. Take care of her the way she takes care of everyone else.</p>
+  </div>
+
+  <div class="miss-grid">
+    <!-- EDIT: keep, remove, or add cards freely -->
+    <div class="miss-card"><span class="emoji">&#128105;&#8205;&#129461;</span><p>The way your whole face changes when you talk about Ritika.</p></div>
+    <div class="miss-card"><span class="emoji">&#128054;</span><p>Stopping for every stray dog, every single time, no exceptions.</p></div>
+    <div class="miss-card"><span class="emoji">&#127981;</span><p>Remembering the small stuff about someone's life weeks later.</p></div>
+    <div class="miss-card"><span class="emoji">&#127796;</span><p>Making an away-from-home person feel like they had a home here.</p></div>
+  </div>
+</section>
+
+<!-- ============ SECTION 3: US AT WORK ============ -->
+<section id="office">
+  <span class="section-tag">exhibit C</span>
+  <h2>Us, At the Office</h2>
+  <div class="lede">
+    <p>Some people make a workplace bearable. You made it one of the best parts of my day.</p>
+    <p>The Divyam lunches. Every single one of them. Somehow a forty five minute lunch break turned into the highlight of the week, half the time not even talking about anything important, just existing together, which honestly was the whole point.</p>
+    <p>And the food orders, the completely random, makes no sense but we are doing it anyway orders. The kind where you would say one word at 4pm and suddenly the whole team is craving it. Nobody will ever hit share cart with the same chaotic energy again.</p>
+    <p>I am going to miss you in the ordinary ways more than the big ones. The desk that will feel too quiet. The message I will type out of habit before remembering there is no one to send it to at that desk anymore. The specific kind of missing that only shows up on a random Tuesday for no reason at all.</p>
+    <p>And genuinely, who is going to refill my bottle now? It sounds like nothing until it is gone. That small, unasked, no-big-deal habit of you getting up and just doing it without either of us ever mentioning it out loud. That is the stuff nobody puts in a farewell speech, but it is the stuff I am actually going to miss the most.</p>
+
+    <!-- EDIT: paste your two favorite lyric lines here, right between the quotes.
+         Example: <p class="handwritten" style="font-size:1.5rem;">"line one<br>line two"</p> -->
+    <!-- EDIT: paste your two lyric lines back in here, right between the quotes -->
+    <div class="miss-card" style="max-width:600px; margin:20px auto; text-align:center; background:var(--ink); color:var(--cream);">
+      <p class="handwritten" style="font-size:1.5rem; margin:0;">"[ EDIT: paste your two lines here ]"</p>
+    </div>
+
+    <p>And yes, I still owe you a gift. It has been pending for embarrassingly long, and we both know it. Consider this whole page my very overdue, very public IOU. The real one is coming, I promise, whether you clock me for it or not.</p>
+    <p>This is not goodbye, it is just "see you outside of Slack." Wherever you are headed next, they have no idea how lucky they just got. Go be a baddie somewhere else for a while. We will be here, missing the chaos, missing the tea, missing the lunches, missing you.</p>
+    <p class="desi">धन्यवाद रिया, सगळ्यासाठी. खरंच.</p>
+    <p style="opacity:0.7; font-size:0.95rem; margin-top:-10px;">(Thank you Riya, for everything. Truly.)</p>
+  </div>
+</section>
+
+<!-- ============ CLOSING ============ -->
+<section id="quote">
+  <div style="text-align:center;">
+    <p class="display" style="font-size: clamp(3rem, 12vw, 7rem); color: var(--pink); margin:0;">Purrrr</p>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <h2>Go be a baddie somewhere else for a while.</h2>
+  <p class="handwritten" style="font-size:1.3rem;">This page stays up as long as GitHub lets it. Come back anytime.</p>
+  <span class="desi">आम्ही तुला मिस करू, रिया.</span>
+  <div class="stamp">MISSION: ICONIC</div>
+</footer>
+
+<script>
+  /* ============================================
+     Your photos, already wired up.
+     If you ever want to add more, just add another
+     { src: "photos/yourfile.jpg" } line below.
+     ============================================ */
+  const PHOTOS = [
+    { src: "photos/photo1.jpg" },
+    { src: "photos/photo2.jpg" },
+    { src: "photos/photo3.jpg" },
+    { src: "photos/photo4.jpg" },
+    { src: "photos/photo5.jpg" },
+    { src: "photos/photo6.jpg" },
+    { src: "photos/photo7.jpg" },
+    { src: "photos/photo8.jpg" },
+    { src: "photos/photo9.jpg" },
+    { src: "photos/photo10.jpg" },
+    { src: "photos/photo11.jpg" },
+    { src: "photos/photo12.jpg" }
+  ];
+
+  function buildGallery(containerId, photos){
+    const grid = document.getElementById(containerId);
+    if(!grid) return; // container not on the page yet, nothing to do
+    grid.innerHTML = photos.map((p, i) => `
+      <figure class="polaroid" data-index="${i}" data-group="${containerId}">
+        ${p.src
+          ? `<img src="${p.src}" alt="Photo ${i + 1}">`
+          : `<div class="ph-placeholder">&#128248;</div>`}
+      </figure>
+    `).join('');
+
+    grid.querySelectorAll('.polaroid').forEach(el => {
+      el.addEventListener('click', () => {
+        const i = el.dataset.index;
+        const photo = photos[i];
+        if(!photo.src) return;
+        document.getElementById('lightboxImg').src = photo.src;
+        document.getElementById('lightboxImg').alt = "Photo " + (parseInt(i) + 1);
+        document.getElementById('lightbox').classList.add('open');
+      });
+    });
+  }
+
+  buildGallery('galleryMain', PHOTOS);
+
+  document.getElementById('lightboxClose').addEventListener('click', () => {
+    document.getElementById('lightbox').classList.remove('open');
+  });
+  document.getElementById('lightbox').addEventListener('click', (e) => {
+    if(e.target.id === 'lightbox') e.target.classList.remove('open');
+  });
+
+  const CONFETTI_COLORS = ['#FF4F81', '#8A5CFF', '#FFC93C', '#35D0A4'];
+  function burstConfetti(count = 60){
+    for(let i = 0; i < count; i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = CONFETTI_COLORS[Math.floor(Math.random()*CONFETTI_COLORS.length)];
+      piece.style.animationDuration = (2.5 + Math.random()*2) + 's';
+      piece.style.opacity = 0.85;
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 5000);
+    }
+  }
+  document.getElementById('confettiBtn').addEventListener('click', () => burstConfetti());
+  document.getElementById('purrBtn').addEventListener('click', () => burstConfetti(30));
+  window.addEventListener('load', () => setTimeout(() => burstConfetti(40), 400));
+</script>
+
+</body>
+</html>
